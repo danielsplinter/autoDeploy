@@ -9,9 +9,6 @@ import java.util.stream.Stream;
 public class ManageBuild {
     Configuracoes configuracoes;
     ProcessosSistema processosSistema;
-    StyledDocument doc;
-    Style style;
-
 
     public ManageBuild() {
         super();
@@ -22,17 +19,10 @@ public class ManageBuild {
         this.processosSistema = processosSistema;
     }
 
-    public ManageBuild(Configuracoes configuracoes, ProcessosSistema processosSistema, StyledDocument doc, Style style) {
-        this.configuracoes = configuracoes;
-        this.processosSistema = processosSistema;
-        this.doc = doc;
-        this.style = style;
-    }
-
     public void executeBuild(String modulo){
-        String comandoMavenMontado = getConfiguracoes().getConfiguracao().get(2)+" clean package install -f "+getConfiguracoes().getConfiguracao().get(1)+"\\"+modulo+"\\pom.xml -DskipTests";
+        //String comandoMavenMontado = getConfiguracoes().getConfiguracao().get(2)+" clean package install -f "+getConfiguracoes().getConfiguracao().get(1)+"\\"+modulo+"\\pom.xml -DskipTests";
 
-        //String comandoMavenMontado = "mvn clean package install";
+        String comandoMavenMontado = "mvn clean package install";
         //System.out.println(comandoMavenMontado);
         String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);

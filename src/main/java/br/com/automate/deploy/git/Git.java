@@ -2,6 +2,7 @@ package br.com.automate.deploy.git;
 
 import br.com.automate.deploy.configuracoes.Configuracoes;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
@@ -19,6 +20,7 @@ public class Git {
     Configuracoes configuracoes;
     StyledDocument doc;
     Style style;
+    JTextPane textPane;
 
     public Git() {
         super();
@@ -28,11 +30,12 @@ public class Git {
         this.configuracoes = configuracoes;
     }
 
-    public Git(Configuracoes configuracoes, StyledDocument doc, Style style) {
+    public Git(Configuracoes configuracoes, StyledDocument doc, Style style, JTextPane textPane) {
         this.configuracao = configuracao;
         this.configuracoes = configuracoes;
         this.doc = doc;
         this.style = style;
+        this.textPane = textPane;
     }
 
     public Set<String> execute(String[] comandos){
@@ -57,8 +60,11 @@ public class Git {
                 }
                 String[] partesPath = line.split("/");
 
-
                 doc.insertString(doc.getLength(), line+"\n", style);
+
+                SwingUtilities.invokeLater(() -> {
+                    textPane.setCaretPosition(doc.getLength());
+                });
                 //System.out.println(line);
             }
 

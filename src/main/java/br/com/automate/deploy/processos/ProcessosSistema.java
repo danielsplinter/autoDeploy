@@ -3,6 +3,7 @@ package br.com.automate.deploy.processos;
 import br.com.automate.deploy.configuracoes.Configuracoes;
 import br.com.automate.deploy.exceptions.ProcessStopException;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
@@ -18,6 +19,7 @@ public class ProcessosSistema {
     Configuracoes configuracoes;
     StyledDocument doc;
     Style style;
+    JTextPane textPane;
 
     public ProcessosSistema() {
     }
@@ -26,10 +28,11 @@ public class ProcessosSistema {
         this.configuracoes = configuracoes;
     }
 
-    public ProcessosSistema(Configuracoes configuracoes, StyledDocument doc, Style style) {
+    public ProcessosSistema(Configuracoes configuracoes, StyledDocument doc, Style style, JTextPane textPane) {
         this.configuracoes = configuracoes;
         this.doc = doc;
         this.style = style;
+        this.textPane = textPane;
     }
 
     public Set<String> execute(String[] comandos){
@@ -48,6 +51,10 @@ public class ProcessosSistema {
 
             while ((line = reader.readLine()) != null) {
                 doc.insertString(doc.getLength(), line+"\n", style);
+
+                SwingUtilities.invokeLater(() -> {
+                    textPane.setCaretPosition(doc.getLength());
+                });
                 //System.out.print(line+"\n");
             }
 

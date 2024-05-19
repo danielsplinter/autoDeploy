@@ -27,19 +27,20 @@ public class Main {
             textPane.setEditable(false); // torna o texto apenas para leitura
 
             // Cria um StyledDocument para adicionar estilos ao texto
+            textPane.setBackground(Color.BLACK);
             StyledDocument doc = textPane.getStyledDocument();
 
             // Adiciona um estilo para o texto
             Style style = textPane.addStyle("ColorStyle", null);
-            StyleConstants.setForeground(style, Color.RED); // define a cor do texto para vermelho
+            StyleConstants.setForeground(style, Color.GREEN); // define a cor do texto para vermelho
 
             // Adiciona um texto com estilo ao documento
-            try {
+            /*try {
                 doc.insertString(doc.getLength(), "Texto colorido: ", style);
                 doc.insertString(doc.getLength(), "Este texto é vermelho.", null); // texto sem estilo
             } catch (BadLocationException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             // Adiciona o JTextPane a janela
             frame.add(new JScrollPane(textPane));
@@ -47,9 +48,9 @@ public class Main {
 
             Thread threadAtualizacao = new Thread(() -> {
                 Configuracoes configuracoes = new Configuracoes();
-                Git git = new Git(configuracoes,doc, style);
-                ProcessosSistema processosSistema = new ProcessosSistema(configuracoes, doc, style);
-                ManageBuild manageBuild = new ManageBuild(configuracoes, processosSistema, doc, style);
+                Git git = new Git(configuracoes,doc, style, textPane);
+                ProcessosSistema processosSistema = new ProcessosSistema(configuracoes, doc, style, textPane);
+                ManageBuild manageBuild = new ManageBuild(configuracoes, processosSistema);
 
                 String[] comandoGit = {"git", "diff", "--name-only", "--pretty=format:\"%d\""};
 
@@ -59,7 +60,7 @@ public class Main {
                     manageBuild.executeBuild(modulo);
                 });
 
-                manageBuild.executeBuild(configuracao.get(0));
+                //manageBuild.executeBuild(configuracao.get(0));
 
             });
             threadAtualizacao.start();
