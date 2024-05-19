@@ -12,6 +12,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main( String[] args ) {
@@ -38,7 +39,10 @@ public class Main {
 
             Thread threadAtualizacao = new Thread(() -> {
                 Configuracoes configuracoes = new Configuracoes();
+                //Git git = new Git(configuracoes);
                 Git git = new Git(configuracoes,doc, style, textPane);
+
+                //ProcessosSistema processosSistema = new ProcessosSistema(configuracoes);
                 ProcessosSistema processosSistema = new ProcessosSistema(configuracoes, doc, style, textPane);
                 ManageBuild manageBuild = new ManageBuild(configuracoes, processosSistema);
 
@@ -46,11 +50,28 @@ public class Main {
 
                 List<String> configuracao = configuracoes.getConfiguracao();
 
+                /*
                 git.execute(comandoGit).forEach(modulo -> {
+                    //Montar uma string com uma lista de modulos no comando abaixo e passar para executeBuild(mdulo)
+                    //mvn clean package install -pl src -DskipTests este comando deve ser montado dentro de executeBuild(mdulo)
                     manageBuild.executeBuild(modulo);
-                });
+                });*/
 
-                manageBuild.executeBuild(configuracao.get(0));
+                String modulos = git.execute(comandoGit).stream()
+                        .collect(Collectors.joining(","));
+                String comandoMavenMontado = configuracao.get(2)+" clean package install -pl "+modulos+" -DskipTests; cd "+configuracao.get(0)+" clean install -DskipTests; cd ..";//teste
+                try {
+                    doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
+                    SwingUtilities.invokeLater(() -> {
+                        textPane.setCaretPosition(doc.getLength());
+                    });
+                } catch (BadLocationException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //manageBuild.executeBuild(modulos);
+
+                //manageBuild.executeBuild(configuracao.get(0));
 
             });
             threadAtualizacao.start();
