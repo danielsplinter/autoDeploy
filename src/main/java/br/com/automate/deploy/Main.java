@@ -17,13 +17,11 @@ public class Main {
     public static void main( String[] args ) {
 
         SwingUtilities.invokeLater(() -> {
-            // Cria a janela
             JFrame frame = new JFrame("Auto Build");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(700, 300);
             frame.setLocationRelativeTo(null);
 
-            // Cria um JTextPane
             JTextPane textPane = new JTextPane();
             textPane.setEditable(false); // torna o texto apenas para leitura
 
@@ -35,15 +33,6 @@ public class Main {
             Style style = textPane.addStyle("ColorStyle", null);
             StyleConstants.setForeground(style, Color.GREEN); // define a cor do texto para vermelho
 
-            // Adiciona um texto com estilo ao documento
-            /*try {
-                doc.insertString(doc.getLength(), "Texto colorido: ", style);
-                doc.insertString(doc.getLength(), "Este texto é vermelho.", null); // texto sem estilo
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }*/
-
-            // Adiciona o JTextPane a janela
             frame.add(new JScrollPane(textPane));
             frame.setVisible(true);
 
@@ -61,7 +50,7 @@ public class Main {
                     manageBuild.executeBuild(modulo);
                 });
 
-                //manageBuild.executeBuild(configuracao.get(0));
+                manageBuild.executeBuild(configuracao.get(0));
 
             });
             threadAtualizacao.start();

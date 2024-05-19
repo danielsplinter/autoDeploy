@@ -20,10 +20,10 @@ public class ManageBuild {
     }
 
     public void executeBuild(String modulo){
-        //String comandoMavenMontado = getConfiguracoes().getConfiguracao().get(2)+" clean package install -f "+getConfiguracoes().getConfiguracao().get(1)+"\\"+modulo+"\\pom.xml -DskipTests";
+        String comandoMavenMontado = getConfiguracoes().getConfiguracao().get(2)+" clean package install -f "+getConfiguracoes().getConfiguracao().get(1)+"\\"+modulo+"\\pom.xml -DskipTests";
 
-        String comandoMavenMontado = "mvn clean package install";
-        //System.out.println(comandoMavenMontado);
+        //String comandoMavenMontado = "mvn clean package install";
+
         String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);
 
