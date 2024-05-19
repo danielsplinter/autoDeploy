@@ -21,6 +21,7 @@ public class Main {
             JFrame frame = new JFrame("Auto Build");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(700, 300);
+            frame.setLocationRelativeTo(null);
 
             // Cria um JTextPane
             JTextPane textPane = new JTextPane();
