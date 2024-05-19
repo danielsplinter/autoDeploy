@@ -1,0 +1,6 @@
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/processos/ProcessosSistema.java
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/configuracoes/Configuracoes.java
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/Main.java
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/git/Git.java
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/exceptions/ProcessStopException.java
+/home/r2d2/projetos/java/autoDeploy/auto-eploy/src/main/java/br/com/automate/deploy/processos/ManageBuild.java
