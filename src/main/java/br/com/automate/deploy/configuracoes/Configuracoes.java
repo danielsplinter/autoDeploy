@@ -1,5 +1,6 @@
 package br.com.automate.deploy.configuracoes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -11,7 +12,10 @@ import java.util.stream.Collectors;
 
 public class Configuracoes {
 
-    List<String> configuracao;
+    @JsonProperty("pathMaven")
+    private String pathMaven;
+    private List<String> configuracao;
+    private DeployConfig deployConfig;
 
     public Configuracoes() {
         lerConfiguracoes();
@@ -36,5 +40,13 @@ public class Configuracoes {
 
     public void setConfiguracao(List<String> configuracao) {
         this.configuracao = configuracao;
+    }
+
+    public DeployConfig getDeployConfig() {
+        return deployConfig;
+    }
+
+    public void setDeployConfig(DeployConfig deployConfig) {
+        this.deployConfig = deployConfig;
     }
 }

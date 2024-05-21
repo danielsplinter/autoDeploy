@@ -1,6 +1,0 @@
-br/com/automate/deploy/git/Git.class
-br/com/automate/deploy/processos/ManageBuild.class
-br/com/automate/deploy/Main.class
-br/com/automate/deploy/configuracoes/Configuracoes.class
-br/com/automate/deploy/exceptions/ProcessStopException.class
-br/com/automate/deploy/processos/ProcessosSistema.class

@@ -69,7 +69,7 @@ public class Main {
                     throw new RuntimeException(e);
                 }
 
-                //manageBuild.executeBuild(modulos);
+                manageBuild.executeBuild(modulos);
 
                 //manageBuild.executeBuild(configuracao.get(0));
 

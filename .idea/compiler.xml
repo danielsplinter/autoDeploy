@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="auto-eploy" />
+        <module name="auto-deploy" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="project-analisys" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
