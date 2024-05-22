@@ -1,0 +1,14 @@
+{
+    "pathMaven":"/home/r2d2/projetos/maven.cmd",
+    "buildConfig":{
+        "moduloFinalEAR":"nomeModulo",
+        "projectFolder": "/home/r2d2/projetos/java/bmf/tasks"
+    },
+    "deployConfig":{
+        "wsadminPath":"C:\\WebSphere\\AppServer\\bin\\wsadmin.bat",
+        "appName":"analise-ejb-ear",
+        "earPath":"C:\\path\\to\\your\\analise-ejb-ear.ear",
+        "jythonCommand":"AdminApp.update('%s', 'app', '[ -operation update -contents %s ]'); AdminConfig.save();",
+        "diretorio":"C:\\WebSphere\\AppServer\\bin"
+    }    
+}
