@@ -1,6 +1,7 @@
 package br.com.automate.deploy;
 
-import br.com.automate.deploy.configuracoes.Configuracoes;
+import br.com.automate.deploy.configuracoes.ConfigManager;
+import br.com.automate.deploy.dto.configuracoes.ConfiguracoesDTO;
 import br.com.automate.deploy.git.Git;
 import br.com.automate.deploy.processos.ManageBuild;
 import br.com.automate.deploy.processos.ProcessosSistema;
@@ -11,6 +12,7 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,17 +40,18 @@ public class Main {
             frame.setVisible(true);
 
             Thread threadAtualizacao = new Thread(() -> {
-                Configuracoes configuracoes = new Configuracoes();
+                ConfigManager configManager = new ConfigManager();
+
                 //Git git = new Git(configuracoes);
-                Git git = new Git(configuracoes,doc, style, textPane);
+                Git git = new Git(configManager,doc, style, textPane);
 
                 //ProcessosSistema processosSistema = new ProcessosSistema(configuracoes);
-                ProcessosSistema processosSistema = new ProcessosSistema(configuracoes, doc, style, textPane);
-                ManageBuild manageBuild = new ManageBuild(configuracoes, processosSistema);
+                ProcessosSistema processosSistema = new ProcessosSistema(configManager, doc, style, textPane);
+                ManageBuild manageBuild = new ManageBuild(configManager, processosSistema);
 
                 String[] comandoGit = {"git", "diff", "--name-only", "--pretty=format:\"%d\""};
 
-                List<String> configuracao = configuracoes.getConfiguracao();
+                //List<String> configuracao = configuracoesDTO.getConfiguracao();
 
                 /*
                 git.execute(comandoGit).forEach(modulo -> {
@@ -59,7 +62,7 @@ public class Main {
 
                 String modulos = git.execute(comandoGit).stream()
                         .collect(Collectors.joining(","));
-                String comandoMavenMontado = configuracao.get(2)+" clean package install -pl "+modulos+" -DskipTests; cd "+configuracao.get(0)+" clean install -DskipTests; cd ..";//teste
+                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getBuildConfig().getModuloFinalEAR()+" clean install -DskipTests; cd ..";//teste
                 try {
                     doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
                     SwingUtilities.invokeLater(() -> {
@@ -69,7 +72,7 @@ public class Main {
                     throw new RuntimeException(e);
                 }
 
-                manageBuild.executeBuild(modulos);
+                //manageBuild.executeBuild(modulos);
 
                 //manageBuild.executeBuild(configuracao.get(0));
 

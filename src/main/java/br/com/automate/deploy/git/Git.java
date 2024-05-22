@@ -1,7 +1,6 @@
 package br.com.automate.deploy.git;
 
-import br.com.automate.deploy.configuracoes.Configuracoes;
-
+import br.com.automate.deploy.configuracoes.ConfigManager;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -15,24 +14,21 @@ import java.util.List;
 import java.util.Set;
 
 public class Git {
-
-    List<String> configuracao;
-    Configuracoes configuracoes;
-    StyledDocument doc;
-    Style style;
-    JTextPane textPane;
+    private ConfigManager configManager;
+    private StyledDocument doc;
+    private Style style;
+    private JTextPane textPane;
 
     public Git() {
         super();
     }
 
-    public Git(Configuracoes configuracoes) {
-        this.configuracoes = configuracoes;
+    public Git(ConfigManager configManager) {
+        this.configManager = configManager;
     }
 
-    public Git(Configuracoes configuracoes, StyledDocument doc, Style style, JTextPane textPane) {
-        this.configuracao = configuracao;
-        this.configuracoes = configuracoes;
+    public Git(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
+        this.configManager = configManager;
         this.doc = doc;
         this.style = style;
         this.textPane = textPane;
@@ -43,8 +39,7 @@ public class Git {
         String line = "";
 
         try {
-            File directory = new File(getConfiguracoes().getConfiguracao().get(1));
-            //Process process = new ProcessBuilder("git", "status").start();
+            File directory = new File(getConfigManager().getConfiguracoesDTO().getBuildConfig().getProjectFolder());
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
             processBuilder.directory(directory);
 
@@ -87,21 +82,11 @@ public class Git {
         return new File(file).isFile();
     }
 
-
-
-    public List<String> getConfiguracao() {
-        return configuracao;
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
-    public void setConfiguracao(List<String> configuracao) {
-        this.configuracao = configuracao;
-    }
-
-    public Configuracoes getConfiguracoes() {
-        return configuracoes;
-    }
-
-    public void setConfiguracoes(Configuracoes configuracoes) {
-        this.configuracoes = configuracoes;
+    public void setConfigManager(ConfigManager configManager) {
+        this.configManager = configManager;
     }
 }

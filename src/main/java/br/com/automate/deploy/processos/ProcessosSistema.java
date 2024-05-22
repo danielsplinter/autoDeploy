@@ -1,6 +1,7 @@
 package br.com.automate.deploy.processos;
 
-import br.com.automate.deploy.configuracoes.Configuracoes;
+import br.com.automate.deploy.configuracoes.ConfigManager;
+import br.com.automate.deploy.dto.configuracoes.ConfiguracoesDTO;
 import br.com.automate.deploy.exceptions.ProcessStopException;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 public class ProcessosSistema {
 
-    Configuracoes configuracoes;
+    ConfigManager configManager;
     StyledDocument doc;
     Style style;
     JTextPane textPane;
@@ -24,12 +25,12 @@ public class ProcessosSistema {
     public ProcessosSistema() {
     }
 
-    public ProcessosSistema(Configuracoes configuracoes) {
-        this.configuracoes = configuracoes;
+    public ProcessosSistema(ConfigManager configManager) {
+        this.configManager = configManager;
     }
 
-    public ProcessosSistema(Configuracoes configuracoes, StyledDocument doc, Style style, JTextPane textPane) {
-        this.configuracoes = configuracoes;
+    public ProcessosSistema(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
+        this.configManager = configManager;
         this.doc = doc;
         this.style = style;
         this.textPane = textPane;
@@ -40,7 +41,7 @@ public class ProcessosSistema {
         String line = "";
 
         try {
-            File directory = new File(getConfiguracoes().getConfiguracao().get(1));
+            File directory = new File(getConfigManager().getConfiguracoesDTO().getBuildConfig().getProjectFolder());
             //Process process = new ProcessBuilder("git", "status").start();
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
             //processBuilder.directory(directory);
@@ -75,11 +76,11 @@ public class ProcessosSistema {
         return logRetorno;
     }
 
-    public Configuracoes getConfiguracoes() {
-        return configuracoes;
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
-    public void setConfiguracoes(Configuracoes configuracoes) {
-        this.configuracoes = configuracoes;
+    public void setConfigManager(ConfigManager configManager) {
+        this.configManager = configManager;
     }
 }
