@@ -41,7 +41,7 @@ public class ProcessosSistema {
         String line = "";
 
         try {
-            File directory = new File(getConfigManager().getConfiguracoesDTO().getBuildConfig().getProjectFolder());
+            File directory = new File(getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
             //Process process = new ProcessBuilder("git", "status").start();
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
             //processBuilder.directory(directory);

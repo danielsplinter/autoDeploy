@@ -62,7 +62,7 @@ public class Main {
 
                 String modulos = git.execute(comandoGit).stream()
                         .collect(Collectors.joining(","));
-                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getBuildConfig().getModuloFinalEAR()+" clean install -DskipTests; cd ..";//teste
+                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -DskipTests; cd ..";//teste
                 try {
                     doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
                     SwingUtilities.invokeLater(() -> {

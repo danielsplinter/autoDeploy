@@ -19,7 +19,7 @@ public class ManageBuild {
     }
 
     public void executeBuild(String modulo){
-        String comandoMavenMontado = getConfigManager().getConfiguracoesDTO().getPathMaven()+" clean install -f "+getConfigManager().getConfiguracoesDTO().getBuildConfig().getProjectFolder()+"\\"+modulo+"\\pom.xml -DskipTests";
+        String comandoMavenMontado = getConfigManager().getConfiguracoesDTO().getPathMaven()+" clean install -f "+getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder()+"\\"+modulo+"\\pom.xml -DskipTests";
         //String comandoMavenMontado = "mvn clean package install";
         //System.out.println(comandoMavenMontado);
         String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))

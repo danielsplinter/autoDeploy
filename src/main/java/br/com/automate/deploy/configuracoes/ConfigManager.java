@@ -20,13 +20,13 @@ public class ConfigManager {
         try {
             configuracoesDTO = objectMapper.readValue(new File(filePath), ConfiguracoesDTO.class);
             System.out.println("Path Maven: " + configuracoesDTO.getPathMaven());
-            System.out.println("Build Config - Modulo Final EAR: " + configuracoesDTO.getBuildConfig().getModuloFinalEAR());
-            System.out.println("Build Config - Project Folder: " + configuracoesDTO.getBuildConfig().getProjectFolder());
-            System.out.println("Deploy Config - wsadmin Path: " + configuracoesDTO.getDeployConfig().getWsadminPath());
-            System.out.println("Deploy Config - App Name: " + configuracoesDTO.getDeployConfig().getAppName());
-            System.out.println("Deploy Config - EAR Path: " + configuracoesDTO.getDeployConfig().getEarPath());
-            System.out.println("Deploy Config - Jython Command: " + configuracoesDTO.getDeployConfig().getJythonCommand());
-            System.out.println("Deploy Config - Diretorio: " + configuracoesDTO.getDeployConfig().getDiretorio());
+            System.out.println("Build Config - Modulo Final EAR: " + configuracoesDTO.getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR());
+            System.out.println("Build Config - Project Folder: " + configuracoesDTO.getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
+            System.out.println("Deploy Config - wsadmin Path: " + configuracoesDTO.getWsadminPath());
+            System.out.println("Deploy Config - App Name: " + configuracoesDTO.getProjectPerfils().get(0).getDeployConfigDTO().getAppName());
+            System.out.println("Deploy Config - EAR Path: " + configuracoesDTO.getProjectPerfils().get(0).getDeployConfigDTO().getEarPath());
+            System.out.println("Deploy Config - Jython Command: " + configuracoesDTO.getProjectPerfils().get(0).getDeployConfigDTO().getJythonCommand());
+            //System.out.println("Deploy Config - Diretorio: " + configuracoesDTO.getDiretorio());
         } catch (IOException e) {
             e.printStackTrace();
         }

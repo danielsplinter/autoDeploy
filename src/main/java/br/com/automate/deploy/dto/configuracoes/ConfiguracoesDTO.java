@@ -2,28 +2,21 @@ package br.com.automate.deploy.dto.configuracoes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.File;
+import java.util.List;
+
 public class ConfiguracoesDTO {
 
     @JsonProperty("pathMaven")
     private String pathMaven;
 
-    @JsonProperty("buildConfig")
-    private BuildConfigDTO buildConfigDTO;
-    @JsonProperty("deployConfig")
-    private DeployConfigDTO deployConfigDTO;
+    @JsonProperty("wsadminPath")
+    private String wsadminPath;// = "C:\\WebSphere\\AppServer\\bin\\wsadmin.bat";
+
+    List<ProjectPerfil> projectPerfils;
 
     public ConfiguracoesDTO() {
         super();
-    }
-
-
-
-    public DeployConfigDTO getDeployConfig() {
-        return deployConfigDTO;
-    }
-
-    public void setDeployConfig(DeployConfigDTO deployConfigDTO) {
-        this.deployConfigDTO = deployConfigDTO;
     }
 
     public String getPathMaven() {
@@ -34,11 +27,19 @@ public class ConfiguracoesDTO {
         this.pathMaven = pathMaven;
     }
 
-    public BuildConfigDTO getBuildConfig() {
-        return buildConfigDTO;
+    public String getWsadminPath() {
+        return wsadminPath;
     }
 
-    public void setBuildConfig(BuildConfigDTO buildConfigDTO) {
-        this.buildConfigDTO = buildConfigDTO;
+    public void setWsadminPath(String wsadminPath) {
+        this.wsadminPath = wsadminPath;
+    }
+
+    public List<ProjectPerfil> getProjectPerfils() {
+        return projectPerfils;
+    }
+
+    public void setProjectPerfils(List<ProjectPerfil> projectPerfils) {
+        this.projectPerfils = projectPerfils;
     }
 }
