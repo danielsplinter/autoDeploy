@@ -1,21 +1,21 @@
 package br.com.automate.deploy.processos;
 
 import br.com.automate.deploy.configuracoes.ConfigManager;
-import br.com.automate.deploy.dto.configuracoes.ConfiguracoesDTO;
+import br.com.automate.deploy.processos.build.ProcessoBuild;
 
 import java.util.stream.Stream;
 
 public class ManageBuild {
-    ProcessosSistema processosSistema;
+    ProcessoBuild processoBuild;
     ConfigManager configManager;
 
     public ManageBuild() {
         super();
     }
 
-    public ManageBuild(ConfigManager configManager, ProcessosSistema processosSistema) {
+    public ManageBuild(ConfigManager configManager, ProcessoBuild processoBuild) {
         this.configManager = configManager;
-        this.processosSistema = processosSistema;
+        this.processoBuild = processoBuild;
     }
 
     public void executeBuild(String modulo){
@@ -25,7 +25,7 @@ public class ManageBuild {
         String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);
 
-        processosSistema.execute(comandoMaven);
+        processoBuild.execute(comandoMaven);
     }
 
     public void executeDeploy(String modulo){
@@ -39,12 +39,12 @@ public class ManageBuild {
     }
 
 
-    public ProcessosSistema getProcessosSistema() {
-        return processosSistema;
+    public ProcessoBuild getProcessosSistema() {
+        return processoBuild;
     }
 
-    public void setProcessosSistema(ProcessosSistema processosSistema) {
-        this.processosSistema = processosSistema;
+    public void setProcessosSistema(ProcessoBuild processoBuild) {
+        this.processoBuild = processoBuild;
     }
 
     public ConfigManager getConfigManager() {

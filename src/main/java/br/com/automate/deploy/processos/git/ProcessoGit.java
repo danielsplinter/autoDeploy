@@ -1,6 +1,8 @@
-package br.com.automate.deploy.git;
+package br.com.automate.deploy.processos.git;
 
 import br.com.automate.deploy.configuracoes.ConfigManager;
+import br.com.automate.deploy.processos.ProcessoExterno;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -9,33 +11,36 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Git {
+public class ProcessoGit implements ProcessoExterno {
     private ConfigManager configManager;
     private StyledDocument doc;
     private Style style;
     private JTextPane textPane;
 
-    public Git() {
+    public ProcessoGit() {
         super();
     }
 
-    public Git(ConfigManager configManager) {
+    public ProcessoGit(ConfigManager configManager) {
         this.configManager = configManager;
     }
 
-    public Git(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
+    public ProcessoGit(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
         this.configManager = configManager;
         this.doc = doc;
         this.style = style;
         this.textPane = textPane;
     }
 
-    public Set<String> execute(String[] comandos){
-        Set<String> logRetorno = new HashSet<>();
+    @Override
+    public List<String> execute(String[] comandos){
+        Set<String> logProcessoGit = new HashSet<>();
         String line = "";
 
         try {
@@ -51,7 +56,7 @@ public class Git {
                 String path = new File(line).getParent();
                 if(path != null ){
                     String[] partesPath = line.split("/");
-                    logRetorno.add(partesPath[0]);
+                    logProcessoGit.add(partesPath[0]);
                 }
                 String[] partesPath = line.split("/");
 
@@ -75,7 +80,7 @@ public class Git {
             throw new RuntimeException(e);
         }
 
-        return logRetorno;
+        return logProcessoGit.stream().collect(Collectors.toList());
     }
 
     private boolean isModule(String file){

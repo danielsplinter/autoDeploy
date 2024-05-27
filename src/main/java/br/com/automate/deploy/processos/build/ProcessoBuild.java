@@ -1,8 +1,8 @@
-package br.com.automate.deploy.processos;
+package br.com.automate.deploy.processos.build;
 
 import br.com.automate.deploy.configuracoes.ConfigManager;
-import br.com.automate.deploy.dto.configuracoes.ConfiguracoesDTO;
 import br.com.automate.deploy.exceptions.ProcessStopException;
+import br.com.automate.deploy.processos.ProcessoExterno;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -12,37 +12,37 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ProcessosSistema {
+public class ProcessoBuild implements ProcessoExterno {
 
-    ConfigManager configManager;
-    StyledDocument doc;
-    Style style;
-    JTextPane textPane;
+    private ConfigManager configManager;
+    private StyledDocument doc;
+    private Style style;
+    private JTextPane textPane;
 
-    public ProcessosSistema() {
+    public ProcessoBuild() {
     }
 
-    public ProcessosSistema(ConfigManager configManager) {
+    public ProcessoBuild(ConfigManager configManager) {
         this.configManager = configManager;
     }
 
-    public ProcessosSistema(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
+    public ProcessoBuild(ConfigManager configManager, StyledDocument doc, Style style, JTextPane textPane) {
         this.configManager = configManager;
         this.doc = doc;
         this.style = style;
         this.textPane = textPane;
     }
 
-    public Set<String> execute(String[] comandos){
-        Set<String> logRetorno = new HashSet<>();
+    @Override
+    public List<String> execute(String[] comandos){
+        List<String> logRetorno = new ArrayList<>();
         String line = "";
 
         try {
             File directory = new File(getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
-            //Process process = new ProcessBuilder("git", "status").start();
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
             //processBuilder.directory(directory);
 
@@ -61,12 +61,12 @@ public class ProcessosSistema {
 
             int exitCode = process.waitFor();
 
-            if (exitCode == 0) {
-                System.out.println("Comando executado com sucesso!");
-            } else {
+            if (exitCode != 0) {
                 System.out.println("Erro ao executar o comando. Código de saída: " + exitCode);
                 throw new ProcessStopException("ERRO DURANTE O BUILD");
             }
+
+            System.out.println("Comando executado com sucesso!");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } catch (BadLocationException e) {

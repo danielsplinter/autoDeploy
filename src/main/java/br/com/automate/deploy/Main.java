@@ -1,10 +1,9 @@
 package br.com.automate.deploy;
 
 import br.com.automate.deploy.configuracoes.ConfigManager;
-import br.com.automate.deploy.dto.configuracoes.ConfiguracoesDTO;
-import br.com.automate.deploy.git.Git;
+import br.com.automate.deploy.processos.git.ProcessoGit;
 import br.com.automate.deploy.processos.ManageBuild;
-import br.com.automate.deploy.processos.ProcessosSistema;
+import br.com.automate.deploy.processos.build.ProcessoBuild;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -12,8 +11,6 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -43,11 +40,11 @@ public class Main {
                 ConfigManager configManager = new ConfigManager();
 
                 //Git git = new Git(configuracoes);
-                Git git = new Git(configManager,doc, style, textPane);
+                ProcessoGit processoGit = new ProcessoGit(configManager,doc, style, textPane);
 
                 //ProcessosSistema processosSistema = new ProcessosSistema(configuracoes);
-                ProcessosSistema processosSistema = new ProcessosSistema(configManager, doc, style, textPane);
-                ManageBuild manageBuild = new ManageBuild(configManager, processosSistema);
+                ProcessoBuild processoBuild = new ProcessoBuild(configManager, doc, style, textPane);
+                ManageBuild manageBuild = new ManageBuild(configManager, processoBuild);
 
                 String[] comandoGit = {"git", "diff", "--name-only", "--pretty=format:\"%d\""};
 
@@ -60,7 +57,7 @@ public class Main {
                     manageBuild.executeBuild(modulo);
                 });*/
 
-                String modulos = git.execute(comandoGit).stream()
+                String modulos = processoGit.execute(comandoGit).stream()
                         .collect(Collectors.joining(","));
                 String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -DskipTests; cd ..";//teste
                 try {
