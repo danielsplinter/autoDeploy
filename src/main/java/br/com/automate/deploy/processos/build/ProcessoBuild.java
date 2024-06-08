@@ -44,7 +44,7 @@ public class ProcessoBuild implements ProcessoExterno {
         try {
             File directory = new File(getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
-            //processBuilder.directory(directory);
+            processBuilder.directory(directory);
 
             Process process = processBuilder.start();
 

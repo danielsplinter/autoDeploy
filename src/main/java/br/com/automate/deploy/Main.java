@@ -48,18 +48,12 @@ public class Main {
 
                 String[] comandoGit = {"git", "diff", "--name-only", "--pretty=format:\"%d\""};
 
-                //List<String> configuracao = configuracoesDTO.getConfiguracao();
-
-                /*
-                git.execute(comandoGit).forEach(modulo -> {
-                    //Montar uma string com uma lista de modulos no comando abaixo e passar para executeBuild(mdulo)
-                    //mvn clean package install -pl src -DskipTests este comando deve ser montado dentro de executeBuild(mdulo)
-                    manageBuild.executeBuild(modulo);
-                });*/
-
-                String modulos = processoGit.execute(comandoGit).stream()
+                String modulos = processoGit.execute(comandoGit)
+                        .stream()
                         .collect(Collectors.joining(","));
-                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -DskipTests; cd ..";//teste
+
+                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -o -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -o -DskipTests; cd ..";//teste
+
                 try {
                     doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
                     SwingUtilities.invokeLater(() -> {
@@ -69,10 +63,9 @@ public class Main {
                     throw new RuntimeException(e);
                 }
 
-                //manageBuild.executeBuild(modulos);
+                manageBuild.executeBuild(modulos);
 
                 //manageBuild.executeBuild(configuracao.get(0));
-
             });
             threadAtualizacao.start();
         });
