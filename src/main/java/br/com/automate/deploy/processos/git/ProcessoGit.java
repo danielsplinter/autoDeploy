@@ -39,7 +39,7 @@ public class ProcessoGit implements ProcessoExterno {
     }
 
     @Override
-    public List<String> execute(String[] comandos){
+    public List<String> execute(List<String> comandos){
         Set<String> logProcessoGit = new HashSet<>();
         String line = "";
 

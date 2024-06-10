@@ -10,7 +10,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -46,13 +49,14 @@ public class Main {
                 ProcessoBuild processoBuild = new ProcessoBuild(configManager, doc, style, textPane);
                 ManageBuild manageBuild = new ManageBuild(configManager, processoBuild);
 
-                String[] comandoGit = {"git", "diff", "--name-only", "--pretty=format:\"%d\""};
+                List<String> comandoGit = new ArrayList<>(Arrays.asList());
+                comandoGit.add("git diff --name-only --pretty=format:\"%d\"");
 
                 String modulos = processoGit.execute(comandoGit)
                         .stream()
                         .collect(Collectors.joining(","));
 
-                String comandoMavenMontado = configManager.getConfiguracoesDTO().getPathMaven()+" clean install -o -pl "+modulos+" -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -o -DskipTests; cd ..";//teste
+                String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -O -DskipTests; cd ..";//teste
 
                 try {
                     doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
