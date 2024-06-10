@@ -50,7 +50,10 @@ public class Main {
                 ManageBuild manageBuild = new ManageBuild(configManager, processoBuild);
 
                 List<String> comandoGit = new ArrayList<>(Arrays.asList());
-                comandoGit.add("git diff --name-only --pretty=format:\"%d\"");
+                comandoGit.add("git");
+                comandoGit.add("diff");
+                comandoGit.add("--name-only");
+                comandoGit.add("--pretty=format:\"%d\"");
 
                 String modulos = processoGit.execute(comandoGit)
                         .stream()
