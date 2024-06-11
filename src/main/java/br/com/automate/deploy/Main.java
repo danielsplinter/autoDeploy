@@ -59,10 +59,26 @@ public class Main {
                         .stream()
                         .collect(Collectors.joining(","));
 
-                String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -O -DskipTests; cd ..";//teste
+                //String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -O -DskipTests; cd ..";//teste
+                String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests";//teste
+                String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
+                String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
+
+                String vbScriptPath = "runMaven.vbs";
+                //String mavenCommand = "mvn clean install"; // Substitua pelo comando Maven desejado
+                // Configura o comando para executar o VBScript com o comando Maven como parâmetro
+                List<String> command = new ArrayList<>();
+                command.add("cscript");
+                command.add("//NoLogo");
+                command.add(vbScriptPath);
+                command.add(projectFolder);
+                command.add(comandoMavenMontado);
+                command.add(earFolder);
+
+                String mavenCommand = command.stream().collect(Collectors.joining());
 
                 try {
-                    doc.insertString(doc.getLength(), comandoMavenMontado+"\n", style);
+                    doc.insertString(doc.getLength(), mavenCommand+"\n", style);
                     SwingUtilities.invokeLater(() -> {
                         textPane.setCaretPosition(doc.getLength());
                     });

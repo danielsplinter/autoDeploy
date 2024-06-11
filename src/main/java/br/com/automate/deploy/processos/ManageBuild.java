@@ -22,8 +22,9 @@ public class ManageBuild {
 
     public void executeBuild(String modulos){
         String mvnPath = configManager.getConfiguracoesDTO().getPathMaven();
-        String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests; cd "+configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR()+"; mvn clean install -O -DskipTests; cd ..";//teste
+        String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests";//teste
         String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
+        String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
 
         String vbScriptPath = "runMaven.vbs";
         String mavenCommand = "mvn clean install"; // Substitua pelo comando Maven desejado
@@ -34,6 +35,7 @@ public class ManageBuild {
         command.add(vbScriptPath);
         command.add(projectFolder);
         command.add(comandoMavenMontado);
+        command.add(earFolder);
 
 
         //String comandoMavenMontado = getConfigManager().getConfiguracoesDTO().getPathMaven()+" clean install -f "+getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder()+"\\"+modulos+"\\pom.xml -DskipTests";
@@ -42,7 +44,7 @@ public class ManageBuild {
         /*String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);*/
 
-        processoBuild.execute(command);
+        //processoBuild.execute(command);
     }
 
     public void executeDeploy(String modulo){
