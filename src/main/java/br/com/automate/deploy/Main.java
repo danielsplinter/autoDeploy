@@ -64,12 +64,12 @@ public class Main {
                 String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
                 String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
 
-                String vbScriptPath = "runMaven.vbs";
+                String vbScriptPath = "runMaven.vbs ";
                 //String mavenCommand = "mvn clean install"; // Substitua pelo comando Maven desejado
                 // Configura o comando para executar o VBScript com o comando Maven como parâmetro
                 List<String> command = new ArrayList<>();
-                command.add("cscript");
-                command.add("//NoLogo");
+                command.add("cscript ");
+                command.add("//NoLogo ");
                 command.add(vbScriptPath);
                 command.add("\""+projectFolder+"\"");
                 command.add("\""+comandoMavenMontado+"\"");
