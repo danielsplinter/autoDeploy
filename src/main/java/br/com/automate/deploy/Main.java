@@ -71,11 +71,11 @@ public class Main {
                 command.add("cscript");
                 command.add("//NoLogo");
                 command.add(vbScriptPath);
-                command.add(projectFolder);
-                command.add(comandoMavenMontado);
-                command.add(earFolder);
+                command.add("\""+projectFolder+"\"");
+                command.add("\""+comandoMavenMontado+"\"");
+                command.add("\""+earFolder+"\"");
 
-                String mavenCommand = command.stream().collect(Collectors.joining());
+                String mavenCommand = command.stream().collect(Collectors.joining(" "));
 
                 try {
                     doc.insertString(doc.getLength(), mavenCommand+"\n", style);
