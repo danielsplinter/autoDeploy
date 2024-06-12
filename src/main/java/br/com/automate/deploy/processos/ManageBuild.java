@@ -3,8 +3,11 @@ package br.com.automate.deploy.processos;
 import br.com.automate.deploy.configuracoes.ConfigManager;
 import br.com.automate.deploy.processos.build.ProcessoBuild;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ManageBuild {
@@ -22,7 +25,8 @@ public class ManageBuild {
 
     public void executeBuild(String modulos){
         String mvnPath = configManager.getConfiguracoesDTO().getPathMaven();
-        String comandoMavenMontado = "mvn clean install -pl "+modulos+" -O -DskipTests";//teste
+        String comandoMavenMontado = "cmd /c mvn clean install -pl "+modulos+" -o -DskipTests";//teste
+        //String comandoMavenMontado = "cmd /c mvn clean install  -o -DskipTests";//teste
         String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
         String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
 
@@ -43,8 +47,15 @@ public class ManageBuild {
         //System.out.println(comandoMavenMontado);
         /*String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);*/
+        List<String> comandoMaven = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
 
-        //processoBuild.execute(command);
+        processoBuild.setDirectoryExecute(new File(projectFolder));
+        int statusExitCode =  processoBuild.execute(comandoMaven);
+
+        if(statusExitCode == 0){
+            processoBuild.setDirectoryExecute(new File(earFolder));
+            processoBuild.execute(comandoMaven);
+        }
     }
 
     public void executeDeploy(String modulo){

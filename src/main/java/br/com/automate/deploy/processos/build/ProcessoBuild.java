@@ -22,6 +22,8 @@ public class ProcessoBuild implements ProcessoExterno {
     private Style style;
     private JTextPane textPane;
 
+    private File directoryExecute;
+
     public ProcessoBuild() {
     }
 
@@ -37,15 +39,14 @@ public class ProcessoBuild implements ProcessoExterno {
     }
 
     @Override
-    public List<String> execute(List<String> comandos){
-        List<String> logRetorno = new ArrayList<>();
+    public int execute(List<String> comandos){
         String line = "";
+        int exitProcessCode = 0;
 
         try {
-            File directory = new File(getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
             ProcessBuilder processBuilder = new ProcessBuilder(comandos);
             processBuilder.redirectErrorStream(true);
-            //processBuilder.directory(directory);
+            processBuilder.directory(getDirectoryExecute());
 
             Process process = processBuilder.start();
 
@@ -60,10 +61,10 @@ public class ProcessoBuild implements ProcessoExterno {
                 //System.out.print(line+"\n");
             }
 
-            int exitCode = process.waitFor();
+            exitProcessCode = process.waitFor();
 
-            if (exitCode != 0) {
-                System.out.println("Erro ao executar o comando. Código de saída: " + exitCode);
+            if (exitProcessCode != 0) {
+                System.out.println("Erro ao executar o comando. Código de saída: " + exitProcessCode);
                 throw new ProcessStopException("ERRO DURANTE O BUILD");
             }
 
@@ -74,7 +75,7 @@ public class ProcessoBuild implements ProcessoExterno {
             throw new RuntimeException(e);
         }
 
-        return logRetorno;
+        return exitProcessCode;
     }
 
     public static void runMavenScript(String[] comandos) throws Exception {
@@ -118,5 +119,13 @@ public class ProcessoBuild implements ProcessoExterno {
 
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
+    }
+
+    public File getDirectoryExecute() {
+        return directoryExecute;
+    }
+
+    public void setDirectoryExecute(File directoryExecute) {
+        this.directoryExecute = directoryExecute;
     }
 }

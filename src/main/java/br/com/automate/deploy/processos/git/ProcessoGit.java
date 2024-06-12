@@ -22,6 +22,7 @@ public class ProcessoGit implements ProcessoExterno {
     private StyledDocument doc;
     private Style style;
     private JTextPane textPane;
+    private Set<String> logProcessoGit = new HashSet<>();
 
     public ProcessoGit() {
         super();
@@ -39,9 +40,10 @@ public class ProcessoGit implements ProcessoExterno {
     }
 
     @Override
-    public List<String> execute(List<String> comandos){
-        Set<String> logProcessoGit = new HashSet<>();
+    public int execute(List<String> comandos){
+        int exitProcessCode = 0;
         String line = "";
+        logProcessoGit.clear();
 
         try {
             File directory = new File(getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder());
@@ -68,19 +70,18 @@ public class ProcessoGit implements ProcessoExterno {
                 //System.out.println(line);
             }
 
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
+            exitProcessCode = process.waitFor();
+            if (exitProcessCode == 0) {
                 System.out.println("Comando executado com sucesso!");
             } else {
-                System.out.println("Erro ao executar o comando. Código de saída: " + exitCode);
+                System.out.println("Erro ao executar o comando. Código de saída: " + exitProcessCode);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } catch (BadLocationException e) {
             throw new RuntimeException(e);
         }
-
-        return logProcessoGit.stream().collect(Collectors.toList());
+        return exitProcessCode;
     }
 
     private boolean isModule(String file){
@@ -93,5 +94,13 @@ public class ProcessoGit implements ProcessoExterno {
 
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
+    }
+
+    public List<String> getLogProcessoGit() {
+        return logProcessoGit.stream().collect(Collectors.toList());
+    }
+
+    public void setLogProcessoGit(Set<String> logProcessoGit) {
+        this.logProcessoGit = logProcessoGit;
     }
 }

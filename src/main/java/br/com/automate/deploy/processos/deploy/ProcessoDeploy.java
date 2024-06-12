@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ProcessoDeploy implements ProcessoExterno {
     @Override
-    public List<String> execute(List<String> comandos) {
-        return null;
+    public int execute(List<String> comandos) {
+        return 0;
     }
 }

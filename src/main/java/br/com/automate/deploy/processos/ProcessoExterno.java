@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface ProcessoExterno {
-    List<String> execute(List<String> comandos);
+    int execute(List<String> comandos);
 }

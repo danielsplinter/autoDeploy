@@ -55,7 +55,9 @@ public class Main {
                 comandoGit.add("--name-only");
                 comandoGit.add("--pretty=format:\"%d\"");
 
-                String modulos = processoGit.execute(comandoGit)
+                 int statusExitCode = processoGit.execute(comandoGit);
+
+                String modulos = processoGit.getLogProcessoGit()
                         .stream()
                         .collect(Collectors.joining(","));
 
