@@ -1,5 +1,5 @@
 {
-    "pathMaven":"/home/r2d2/projetos/maven.cmd",
+    "pathMaven":"mvn",
     "wsadminPath":"C:\\WebSphere\\AppServer\\bin\\wsadmin.bat",
     "projectPerfils":[
         {
