@@ -26,7 +26,7 @@ public class ManageBuild {
     public void executeBuild(String modulos){
         String mvnPath = configManager.getConfiguracoesDTO().getPathMaven();
         String comandoMavenMontado = "cmd /c mvn clean install -pl "+modulos+" -o -DskipTests";//teste
-        //String comandoMavenMontado = "cmd /c mvn clean install  -o -DskipTests";//teste
+        String comandoMavenModuloEAR = "cmd /c mvn clean install -o -DskipTests";//teste
         String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
         String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
 
@@ -47,14 +47,15 @@ public class ManageBuild {
         //System.out.println(comandoMavenMontado);
         /*String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);*/
-        List<String> comandoMaven = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
+        List<String> comandoMavenModulosAlteradosParametro = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
 
         processoBuild.setDirectoryExecute(new File(projectFolder));
-        int statusExitCode =  processoBuild.execute(comandoMaven);
+        int statusExitCode =  processoBuild.execute(comandoMavenModulosAlteradosParametro);
 
         if(statusExitCode == 0){
+            List<String> comandoMavenEARParametros = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
             processoBuild.setDirectoryExecute(new File(earFolder));
-            processoBuild.execute(comandoMaven);
+            processoBuild.execute(comandoMavenEARParametros);
         }
     }
 
