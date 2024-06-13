@@ -54,7 +54,7 @@ public class ManageBuild {
 
         if(statusExitCode == 0){
             List<String> comandoMavenEARParametros = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
-            processoBuild.setDirectoryExecute(new File(earFolder));
+            processoBuild.setDirectoryExecute(new File(projectFolder+earFolder));
             processoBuild.execute(comandoMavenEARParametros);
         }
     }
