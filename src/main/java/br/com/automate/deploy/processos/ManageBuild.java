@@ -25,7 +25,7 @@ public class ManageBuild {
 
     public void executeBuild(String modulos){
         String mvnPath = configManager.getConfiguracoesDTO().getPathMaven();
-        String comandoMavenMontado = "cmd /c mvn clean install -pl "+modulos+" -o -DskipTests";//teste
+        String comandoMavenMontadoModulosAlterados = "cmd /c mvn clean install -pl "+modulos+" -o -DskipTests";//teste
         String comandoMavenModuloEAR = "cmd /c mvn clean install -o -DskipTests";//teste
         String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
         String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
@@ -38,7 +38,7 @@ public class ManageBuild {
         command.add("//NoLogo");
         command.add(vbScriptPath);
         command.add(projectFolder);
-        command.add(comandoMavenMontado);
+        command.add(comandoMavenMontadoModulosAlterados);
         command.add(earFolder);
 
 
@@ -47,13 +47,13 @@ public class ManageBuild {
         //System.out.println(comandoMavenMontado);
         /*String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
                 .toArray(String[]::new);*/
-        List<String> comandoMavenModulosAlteradosParametro = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
+        List<String> comandoMavenModulosAlteradosParametro = Arrays.stream(comandoMavenMontadoModulosAlterados.split(" ")).collect(Collectors.toList());
 
         processoBuild.setDirectoryExecute(new File(projectFolder));
         int statusExitCode =  processoBuild.execute(comandoMavenModulosAlteradosParametro);
 
         if(statusExitCode == 0){
-            List<String> comandoMavenEARParametros = Arrays.stream(comandoMavenMontado.split(" ")).collect(Collectors.toList());
+            List<String> comandoMavenEARParametros = Arrays.stream(comandoMavenModuloEAR.split(" ")).collect(Collectors.toList());
             processoBuild.setDirectoryExecute(new File(projectFolder+earFolder));
             processoBuild.execute(comandoMavenEARParametros);
         }
