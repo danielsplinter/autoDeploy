@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class BuildDeployApp {
     public static void main(String[] args) {
@@ -17,7 +20,9 @@ public class BuildDeployApp {
         // Painel superior para os checkboxes
         JPanel topPanel = new JPanel();
         JCheckBox buildCheckBox = new JCheckBox("Build");
+        buildCheckBox.setSelected(true); // Marca o checkbox "Build" por padrão
         JCheckBox deployCheckBox = new JCheckBox("Deploy");
+        deployCheckBox.setEnabled(false); // Desabilita o checkbox "Deploy" inicialmente
         topPanel.add(buildCheckBox);
         topPanel.add(deployCheckBox);
 
@@ -30,7 +35,7 @@ public class BuildDeployApp {
         listModel.addElement("Item 5");
 
         JList<String> itemList = new JList<>(listModel);
-        itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        itemList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         // Define o renderer personalizado para alternar cores e aumentar a altura dos itens
         itemList.setCellRenderer(new DefaultListCellRenderer() {
@@ -62,6 +67,17 @@ public class BuildDeployApp {
             }
         });
 
+        // Adiciona um ListSelectionListener para habilitar o checkbox "Deploy" somente quando os itens 2 e 4 estiverem selecionados
+        itemList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                List<String> selectedValues = itemList.getSelectedValuesList();
+                boolean item2Selected = selectedValues.contains("Item 2");
+                boolean item4Selected = selectedValues.contains("Item 4");
+                deployCheckBox.setEnabled(item2Selected || item4Selected);
+            }
+        });
+
         JScrollPane listScrollPane = new JScrollPane(itemList);
 
         // Adiciona os componentes ao frame
@@ -72,4 +88,3 @@ public class BuildDeployApp {
         frame.setVisible(true);
     }
 }
-
