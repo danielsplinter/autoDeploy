@@ -24,29 +24,11 @@ public class ManageBuild {
     }
 
     public void executeBuild(String modulos){
-        String mvnPath = configManager.getConfiguracoesDTO().getPathMaven();
         String comandoMavenMontadoModulosAlterados = "cmd /c mvn clean install -pl "+modulos+" -o -DskipTests";//teste
         String comandoMavenModuloEAR = "cmd /c mvn clean install -o -DskipTests";//teste
         String projectFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder();
         String earFolder = configManager.getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getModuloFinalEAR();
 
-        String vbScriptPath = "runMaven.vbs";
-        String mavenCommand = "mvn clean install"; // Substitua pelo comando Maven desejado
-        // Configura o comando para executar o VBScript com o comando Maven como parâmetro
-        List<String> command = new ArrayList<>();
-        command.add("cscript");
-        command.add("//NoLogo");
-        command.add(vbScriptPath);
-        command.add(projectFolder);
-        command.add(comandoMavenMontadoModulosAlterados);
-        command.add(earFolder);
-
-
-        //String comandoMavenMontado = getConfigManager().getConfiguracoesDTO().getPathMaven()+" clean install -f "+getConfigManager().getConfiguracoesDTO().getProjectPerfils().get(0).getBuildConfigDTO().getProjectFolder()+"\\"+modulos+"\\pom.xml -DskipTests";
-        //String comandoMavenMontado = "mvn clean package install";
-        //System.out.println(comandoMavenMontado);
-        /*String[] comandoMaven = Stream.of(comandoMavenMontado.split(" "))
-                .toArray(String[]::new);*/
         List<String> comandoMavenModulosAlteradosParametro = Arrays.stream(comandoMavenMontadoModulosAlterados.split(" ")).collect(Collectors.toList());
 
         processoBuild.setDirectoryExecute(new File(projectFolder));

@@ -78,41 +78,6 @@ public class ProcessoBuild implements ProcessoExterno {
         return exitProcessCode;
     }
 
-    public static void runMavenScript(String[] comandos) throws Exception {
-        String vbScriptPath = "C:\\caminho\\para\\seu\\runMaven.vbs";
-        String mavenCommand = "mvn clean install"; // Substitua pelo comando Maven desejado
-        // Configura o comando para executar o VBScript com o comando Maven como parâmetro
-        List<String> command = new ArrayList<>();
-        command.add("cscript");
-        command.add("//NoLogo");
-        command.add(vbScriptPath);
-        command.add(mavenCommand);
-
-        // Configura o ProcessBuilder
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true); // Redireciona o erro para a saída padrão
-
-        // Inicia o processo
-        Process process = processBuilder.start();
-
-        // Captura a saída do script
-        BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        // Lê a saída padrão do comando linha por linha
-        String s;
-        while ((s = stdInput.readLine()) != null) {
-            System.out.println(s); // Imprime cada linha da saída
-        }
-
-        // Espera o processo terminar e captura o código de retorno
-        int exitCode = process.waitFor();
-        if (exitCode == 0) {
-            System.out.println("Maven build succeeded.");
-        } else {
-            System.out.println("Maven build failed with exit code: " + exitCode);
-        }
-    }
-
     public ConfigManager getConfigManager() {
         return configManager;
     }
